@@ -8,7 +8,7 @@ export function useProfile() {
   useEffect(() => {
     console.log(`[useProfile] Mounted`);
 
-    window.lanternAPI.getProfile((profile: Profile) => {
+    window.lanternAPI.getProfile(({ profile }) => {
       console.log(`[useProfile] profile: `, profile);
       setProfile(profile);
       setIsLoading(false);
