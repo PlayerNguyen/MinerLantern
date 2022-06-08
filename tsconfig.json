@@ -1,0 +1,16 @@
+{
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "src/renderer",
+    "./dist/electron"
+  ],
+  "compilerOptions": {
+    "target": "ES5",
+    "moduleResolution": "Node",
+    "outDir": "./dist/electron",
+    "removeComments": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true
+  }
+}

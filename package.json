@@ -1,0 +1,67 @@
+{
+  "name": "lantern",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "watch-tsc": "tsc --build --clean && tsc --w",
+    "build-tsc": "tsc",
+    "build-parcel": "parcel build src/renderer/index.html --dist-dir dist/renderer --public-url ./",
+    "build": "npm run build-tsc && npm run build-parcel",
+    "start": "npm run build && cross-env NODE_ENV=production electron ./dist/electron/Index.js",
+    "dev-electron": "concurrently 'npm run watch-tsc' 'wait-on file:./dist/electron/Index.js && electronmon ./dist/electron/Index.js'",
+    "dev-parcel": "parcel watch src/renderer/index.html --no-cache --dist-dir dist/renderer --public-url ./",
+    "dev": "concurrently 'npm run dev-*'",
+    "test-unit": "cross-env NODE_ENV=test mocha -r ts-node/register --spec ./src/electron/test/**/*.test.ts",
+    "test": "npm run test-unit"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "2.6.0",
+    "@types/needle": "^2.5.3",
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
+    "autoprefixer": "^10.4.7",
+    "axios": "^0.27.2",
+    "concurrently": "^7.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^19.0.3",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-mocha": "^11.0.2",
+    "electronmon": "^2.0.2",
+    "eslint": "^8.17.0",
+    "eslint-plugin-react": "^7.30.0",
+    "mocha": "^10.0.0",
+    "os-browserify": "^0.3.0",
+    "parcel": "^2.6.0",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.0",
+    "process": "^0.11.10",
+    "react-icons": "^4.4.0",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
+    "redux": "^4.2.0",
+    "tailwindcss": "^3.0.24",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "wait-on": "^6.0.1"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.2",
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^9.1.1",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
+    "chai": "^4.3.6",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "target": {
+    "context": "electron-main"
+  },
+  "electronmon": {
+    "patterns": [
+      "!test/**",
+      "!src/renderer/**",
+      "!dist/renderer/**"
+    ]
+  }
+}
