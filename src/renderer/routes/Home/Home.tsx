@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HiViewList } from "react-icons/hi";
-import { useDispatch } from "react-redux";
-import {
-  Profile,
-  ProfileNode,
-} from "../../../electron/handler/file/profileFile";
+
+import { ProfileNode } from "../../../electron/handler/file/profileFile";
 import useClickOutside from "../../hooks/useClickOutside";
 import { useProfile } from "../../hooks/useProfile";
 
@@ -14,24 +11,12 @@ interface SelectorProps {
 
 function Selector({ onSelect }: SelectorProps) {
   const [expand, setExpand] = useState(false);
-  // const [profile, setProfile] = useState<Profile>(null);
-  const [currentProfile, setCurrentProfile] = useState<ProfileNode>(null);
   const currentDropdown = useRef(null);
-  const { profile } = useProfile();
+  const { profile, isLoading: isProfileLoading } = useProfile();
 
   useClickOutside(currentDropdown, () => {
     setExpand(false);
   });
-
-  // useEffect(() => {
-  //   // Get the configured profile
-  //   window.lanternAPI.getProfile((args) => {
-  //     console.log(`getProfile: `, args);
-
-  //     setProfile(args.profile);
-  //     setCurrentProfile(args.profile[0]);
-  //   });
-  // }, []);
 
   return (
     <div className="">
@@ -56,7 +41,8 @@ function Selector({ onSelect }: SelectorProps) {
             }`}
           ref={currentDropdown}
         >
-          {profile &&
+          {!isProfileLoading &&
+            profile &&
             profile.profiles.map((_, i) => (
               <div
                 key={i}
@@ -66,9 +52,7 @@ function Selector({ onSelect }: SelectorProps) {
                 }}
               >
                 <span className="font-bold">{_.name}</span>
-                <span className="text-primary-400 text-sm">
-                  {_.version === "%latest%" ? "latest" : _.version}
-                </span>
+                <span className="text-primary-400 text-sm">{_.version}</span>
               </div>
             ))}
         </div>
