@@ -8,9 +8,9 @@
     "build-parcel": "parcel build src/renderer/index.html --dist-dir dist/renderer --public-url ./",
     "build": "npm run build-tsc && npm run build-parcel",
     "start": "npm run build && cross-env NODE_ENV=production electron ./dist/electron/Index.js",
-    "dev-electron": "concurrently 'npm run watch-tsc' 'wait-on file:./dist/electron/Index.js && electronmon ./dist/electron/Index.js'",
+    "dev-electron": "concurrently \"npm run watch-tsc\" \"wait-on file:./dist/electron/Index.js && electronmon ./dist/electron/Index.js\"",
     "dev-parcel": "parcel watch src/renderer/index.html --no-cache --dist-dir dist/renderer --public-url ./",
-    "dev": "concurrently 'npm run dev-*'",
+    "dev": "concurrently \"npm:dev-*\"",
     "test-unit": "cross-env NODE_ENV=test mocha -r ts-node/register --spec ./src/electron/test/**/*.test.ts",
     "test": "npm run test-unit"
   },
