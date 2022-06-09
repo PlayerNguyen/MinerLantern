@@ -12,7 +12,8 @@
     "dev-parcel": "parcel watch src/renderer/index.html --no-cache --dist-dir dist/renderer --public-url ./",
     "dev": "concurrently \"npm:dev-*\"",
     "test-unit": "cross-env NODE_ENV=test mocha -r ts-node/register --spec ./src/electron/test/**/*.test.ts",
-    "test": "npm run test-unit"
+    "test": "npm run test-unit",
+    "clean": "node ./scripts/clean.js"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.6.0",
