@@ -1,9 +1,12 @@
-import { VersionManifest } from "./../electron/handler/file/versionFile";
+import { LanternLauncherErrorInterface } from "./../electron/error/error";
+import { ListenerChannels, ReplyChannels } from "./../electron/Preload";
+import { VersionManifest } from "../electron/handler/file/versionFile";
 import { Profile } from "../electron/handler/file/profileFile";
+
 export interface LanternReplyResponse<T> {
   success: boolean;
-  error?: string;
-  data: T;
+  error?: LanternLauncherErrorInterface;
+  data?: T;
 }
 
 export interface LanternProfileReplyResponse extends LanternReplyResponse<any> {
@@ -18,14 +21,13 @@ export interface LanternVersionManifestResponse
 export interface IElectronAPI {
   /**
    * Calls when the lantern launcher initializing
+   * @deprecated
    */
   loadLantern: () => void;
   /**
    * Calls when the launcher is ready from main-process to renderer-process.
    */
-  listenLoadLanternReply: (
-    callback: (args: LanternReplyResponse) => void
-  ) => void;
+  listenLoadLanternReply: (callback: (args: any) => void) => void;
   /**
    * Calls when get profile files
    */
@@ -37,8 +39,11 @@ export interface IElectronAPI {
 
   getVersion: () => void;
   fetchVersionManifest: () => void;
-  on: (channel: string, func: (...args) => void) => void;
-  send: (channel: string, ...args) => void;
+  on: <T>(
+    channel: ReplyChannels,
+    func: (args: LanternReplyResponse<T>) => void
+  ) => void;
+  send: (channel: ListenerChannels, args?: object) => void;
 }
 
 declare global {

@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 
-export function useNetworkChange(
-  callback: (error: Error, isOnline, event) => void
-) {
-  useEffect(() => {
-    window.addEventListener("online", (event) => {
-      callback(null, true, event);
-    });
+interface NetworkChangeProps {
+  onChange?: (isOnline: boolean) => void;
+}
 
-    window.addEventListener("offline", (event) => {
-      callback(null, false, event);
+export function useNetworkChange(props: NetworkChangeProps) {
+  useEffect(() => {
+    window.addEventListener("online", () => {
+      props.onChange && props.onChange(true);
+    });
+    window.addEventListener("offline", () => {
+      props.onChange && props.onChange(false);
     });
 
     return () => {
-      window.removeEventListener("online", (event) => {
-        callback(null, true, event);
+      window.removeEventListener("online", () => {
+        props.onChange && props.onChange(true);
       });
-
-      window.removeEventListener("offline", (event) => {
-        callback(null, false, event);
+      window.removeEventListener("offline", () => {
+        props.onChange && props.onChange(false);
       });
     };
   }, []);

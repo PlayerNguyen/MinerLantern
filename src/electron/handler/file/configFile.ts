@@ -5,14 +5,10 @@ import { getLauncherDirectoryPath } from "./launcherFile";
 import { getConfigFileName } from "../property/launcher";
 
 export interface LanternLauncherConfig {
-  config: string;
-  c: boolean;
   currentProfileIndex: number;
 }
 
 const LanternLauncherConfigDefault: LanternLauncherConfig = {
-  config: "",
-  c: true,
   currentProfileIndex: 0,
 };
 
@@ -31,6 +27,14 @@ export function getConfigPath(): string {
  */
 export function hasConfigPath(): boolean {
   return fs.existsSync(getConfigPath());
+}
+
+/**
+ * Check if the config file is existed or not
+ * @returns {boolean} true if the config file is existed
+ */
+export function hasConfigFile(): boolean {
+  return fs.existsSync(getConfigFilePath());
 }
 
 /**

@@ -1,6 +1,40 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { contextBridge, ipcRenderer } = require("electron");
 
+export type ListenerChannels =
+  | "load-lantern"
+  | "get-configured-profile"
+  | "get-version-manifest"
+  | "get-current-profile"
+  | "update-version-manifest"
+  | "update-setting";
+
+export const ValidListenerChannels: string[] = [
+  "load-lantern",
+  "get-configured-profile",
+  "get-version-manifest",
+  "get-current-profile",
+  "update-version-manifest",
+  "update-setting",
+];
+
+export type ReplyChannels =
+  | "load-lantern-reply"
+  | "get-configured-profile-reply"
+  | "get-version-manifest-reply"
+  | "get-current-profile-reply"
+  | "update-version-manifest-reply"
+  | "update-setting-reply";
+
+export const ValidReplyChannels: string[] = [
+  "load-lantern-reply",
+  "get-configured-profile-reply",
+  "get-version-manifest-reply",
+  "get-current-profile-reply",
+  "update-version-manifest-reply",
+  "update-setting-reply",
+];
+
 contextBridge.exposeInMainWorld("lanternAPI", {
   /**
    * Calls when the lantern launcher initializing
@@ -40,26 +74,18 @@ contextBridge.exposeInMainWorld("lanternAPI", {
   fetchVersionManifest: () => {
     ipcRenderer.send("fetch-version-manifest", [navigator.onLine]);
   },
-  send: (channel, data) => {
-    const validChannels = ["get-current-profile"];
-    if (!validChannels.includes(channel)) {
-      throw new Error(`Invalid channel: ${channel}`);
+  send: (channel: ListenerChannels, data: object) => {
+    if (!ValidListenerChannels.includes(channel)) {
+      throw new Error(`Invalid listener channel: ${channel}`);
     }
-    if (validChannels.includes(channel)) {
-      ipcRenderer.send(channel, data);
-    }
+
+    ipcRenderer.send(channel, data);
   },
-  on: (channel, func) => {
-    const validChannels = [
-      "fetch-version-manifest-reply",
-      "get-current-profile-reply",
-    ];
-    if (!validChannels.includes(channel)) {
-      throw new Error(`Invalid channel: ${channel}`);
+  on: (channel: ReplyChannels, func: (...args) => void) => {
+    if (!ValidReplyChannels.includes(channel)) {
+      throw new Error(`Invalid reply channel: ${channel}`);
     }
-    if (validChannels.includes(channel)) {
-      // Deliberately strip event as it includes `sender`
-      ipcRenderer.on(channel, (event, ...args) => func(...args));
-    }
+    // Deliberately strip event as it includes `sender`
+    ipcRenderer.on(channel, (event, ...args) => func(...args));
   },
 });
