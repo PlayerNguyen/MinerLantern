@@ -5,26 +5,30 @@ export type ListenerChannels =
   | "load-lantern"
   | "get-configured-profile"
   | "get-version-manifest"
-  | "get-current-profile";
+  | "get-current-profile"
+  | "update-version-manifest";
 
 export const ValidListenerChannels: string[] = [
   "load-lantern",
   "get-configured-profile",
   "get-version-manifest",
   "get-current-profile",
+  "update-version-manifest",
 ];
 
 export type ReplyChannels =
   | "load-lantern-reply"
   | "get-configured-profile-reply"
   | "get-version-manifest-reply"
-  | "get-current-profile-reply";
+  | "get-current-profile-reply"
+  | "update-version-manifest-reply";
 
 export const ValidReplyChannels: string[] = [
   "load-lantern-reply",
   "get-configured-profile-reply",
   "get-version-manifest-reply",
   "get-current-profile-reply",
+  "update-version-manifest-reply",
 ];
 
 contextBridge.exposeInMainWorld("lanternAPI", {

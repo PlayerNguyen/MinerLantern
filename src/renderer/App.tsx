@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { useLanternLauncherLoad } from "./hooks/preload/useLanternLauncherLoad";
-import { useVersionManifest } from "./hooks/preload/useVersionManifest";
+
 import { useNetworkChange } from "./hooks/useNetworkChange";
+import { ListenerReceiver } from "./listener/ListenerReceiver";
 
 import Home from "./routes/Home/Home";
 import { Profile } from "./routes/Profile/Profile";
@@ -30,6 +31,9 @@ function App() {
     },
   });
 
+  /**
+   * Initialize Miner Lantern Launcher
+   */
   useLanternLauncherLoad({
     onError: (error) => {
       throw new Error(error.message);
@@ -43,6 +47,14 @@ function App() {
       console.log(`🇻🇳 Lantern Launcher loaded`);
     },
   });
+
+  /**
+   * Hooks all listeners
+   */
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ListenerReceiver.handle(dispatch);
+  }, []);
 
   return (
     <>

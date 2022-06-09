@@ -3,7 +3,7 @@ import { LanternLauncherConfig } from "../../electron/handler/file/configFile";
 import { Profile } from "../../electron/handler/file/profileFile";
 import { VersionManifest } from "../../electron/handler/file/versionFile";
 
-interface AppState {
+export interface AppState {
   isLoading: boolean;
   profile: Profile;
   versionManifest: VersionManifest;

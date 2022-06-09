@@ -1,29 +1,13 @@
+import { UpdateVersionManifest } from "./ipc/UpdateVersionManifest";
 import { ListenerChannels } from "./../../Preload";
 import { LanternReplyResponse } from "./../../../renderer/preload.d";
-import {
-  LanternLauncherError,
-  LanternLauncherErrorInterface,
-} from "./../../error/error";
-import { BrowserWindow, systemPreferences } from "electron";
+import { LanternLauncherErrorInterface } from "./../../error/error";
+import { BrowserWindow } from "electron";
 import { ipcMain } from "electron/main";
-import {
-  fetchVersionManifestFromServer,
-  getVersionManifest,
-  hasVersionManifestFile,
-} from "../file/versionFile";
-import {
-  hasProfileFile,
-  loadDefaultProfile,
-  loadProfile,
-  Profile,
-} from "../file/profileFile";
-import { getConfig } from "../file/configFile";
 import { LanternLoad } from "./ipc/LanternLoad";
 import { GetVersionManifest } from "./ipc/GetVersionManifest";
 import { GetConfiguredProfile } from "./ipc/GetConfiguredProfile";
 import { GetCurrentProfile } from "./ipc/GetCurrentProfile";
-
-const log = (message) => console.log("[IPC] " + message);
 
 // export function handleAllIPC(_window: BrowserWindow): void {
 
@@ -100,6 +84,7 @@ export function handleAllIPC(_window: BrowserWindow): void {
     new GetVersionManifest(),
     new GetConfiguredProfile(),
     new GetCurrentProfile(),
+    new UpdateVersionManifest(),
   ];
   /**
    * Load all listeners
