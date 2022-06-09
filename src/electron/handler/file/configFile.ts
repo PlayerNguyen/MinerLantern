@@ -34,6 +34,14 @@ export function hasConfigPath(): boolean {
 }
 
 /**
+ * Check if the config file is existed or not
+ * @returns {boolean} true if the config file is existed
+ */
+export function hasConfigFile(): boolean {
+  return fs.existsSync(getConfigFilePath());
+}
+
+/**
  * Loads (creates) configuration path if is not exists
  */
 export function loadConfigDirectoryPath(): void {

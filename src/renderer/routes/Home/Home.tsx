@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HiViewList } from "react-icons/hi";
 
-import { ProfileNode } from "../../../electron/handler/file/profileFile";
 import useClickOutside from "../../hooks/useClickOutside";
-import { useProfile } from "../../hooks/useProfile";
+import { useCurrentProfile } from "../../hooks/preload/useCurrentProfile";
+import { useConfiguredProfile } from "../../hooks/preload/useConfiguredProfile";
+import { useSelector } from "react-redux";
 
 interface SelectorProps {
   onSelect: (index: number) => void;
@@ -12,7 +13,11 @@ interface SelectorProps {
 function Selector({ onSelect }: SelectorProps) {
   const [expand, setExpand] = useState(false);
   const currentDropdown = useRef(null);
-  const { profile, isLoading: isProfileLoading } = useProfile();
+
+  const { profile } = useConfiguredProfile();
+
+  // const { profile, isLoading: isProfileLoading } = useConfiguredProfile();
+  const { currentProfileIndex } = useCurrentProfile();
 
   useClickOutside(currentDropdown, () => {
     setExpand(false);
@@ -28,7 +33,9 @@ function Selector({ onSelect }: SelectorProps) {
         }}
       >
         <div className="flex flex-row items-center px-2 py-1">
-          <div className=" font-bold flex-1">Latest</div>
+          <div className=" font-bold flex-1">
+            {profile && profile.profiles[currentProfileIndex].name}
+          </div>
           <span className="p-2">
             <HiViewList />
           </span>
@@ -41,8 +48,7 @@ function Selector({ onSelect }: SelectorProps) {
             }`}
           ref={currentDropdown}
         >
-          {!isProfileLoading &&
-            profile &&
+          {profile &&
             profile.profiles.map((_, i) => (
               <div
                 key={i}
@@ -105,16 +111,6 @@ function Home() {
                   console.log(i);
                 }}
               />
-              {/* <div className="flex flex-row gap-2">
-                <input
-                  className="bg-primary-100 border-2 border-primary-900 rounded-lg p-2 text-primary-800"
-                  type="password"
-                  placeholder="Password"
-                />
-                <button className="bg-green-600 px-3 py-1 text-2xl rounded-lg">
-                  <HiPlay />
-                </button>
-              </div> */}
             </div>
           </div>
         </div>

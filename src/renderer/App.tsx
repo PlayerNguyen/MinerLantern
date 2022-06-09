@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
+import { useLanternLauncherLoad } from "./hooks/preload/useLanternLauncherLoad";
+
 import { useNetworkChange } from "./hooks/useNetworkChange";
+import { ListenerReceiver } from "./listener/ListenerReceiver";
 
 import Home from "./routes/Home/Home";
 import { Profile } from "./routes/Profile/Profile";
-import { setLoading } from "./store/AppSlice";
+import { setLoading, setProfile, setVersionManifest } from "./store/AppSlice";
 
 /**
  *
@@ -18,30 +21,39 @@ function App() {
   const isLoading = useSelector((state: any) => state.App.isLoading);
   const dispatch = useDispatch();
 
-  useNetworkChange((error, isOnline) => {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log(`Network status changed to ${isOnline}`);
-    }
+  useNetworkChange({
+    onChange: (isOnline: boolean) => {
+      dispatch(setLoading(isOnline));
+
+      if (!isOnline) {
+        console.error("📴 Network is offline");
+      }
+    },
   });
 
-  useEffect(() => {
-    console.log();
-    window.lanternAPI.loadLantern();
-    window.lanternAPI.listenLoadLanternReply((args) => {
-      const { success, error } = args;
-
-      // If success load the launcher
-      if (success) {
-        console.log("Load Lantern success");
-        dispatch(setLoading(false));
-        return;
-      }
-      // no
-      // Otherwise, throw error
+  /**
+   * Initialize Miner Lantern Launcher
+   */
+  useLanternLauncherLoad({
+    onError: (error) => {
       throw new Error(error.message);
-    });
+    },
+    onLoad: (version, profile) => {
+      dispatch(setVersionManifest(version));
+      dispatch(setProfile(profile));
+
+      // dispatch(setLoading(false));
+
+      console.log(`🇻🇳 Lantern Launcher loaded`);
+    },
+  });
+
+  /**
+   * Hooks all listeners
+   */
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ListenerReceiver.handle(dispatch);
   }, []);
 
   return (

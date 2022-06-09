@@ -46,7 +46,7 @@ const installExtensions = () => {
 };
 app.whenReady().then(async () => {
   // Install extensions
-  // installExtensions();
+  installExtensions();
 
   // Create a window
   const window = createWindow();
