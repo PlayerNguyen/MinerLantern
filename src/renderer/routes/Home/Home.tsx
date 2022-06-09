@@ -31,7 +31,11 @@ function Selector({ onSelect }: SelectorProps) {
         }}
       >
         <div className="flex flex-row items-center px-2 py-1">
-          <div className=" font-bold flex-1">Latest {currentProfileIndex}</div>
+          <div className=" font-bold flex-1">
+            {profile &&
+              !isCurrentProfileIndexLoading &&
+              profile.profiles[currentProfileIndex].name}
+          </div>
           <span className="p-2">
             <HiViewList />
           </span>

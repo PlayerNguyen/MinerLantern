@@ -21,6 +21,7 @@ import { getConfig } from "../file/configFile";
 import { LanternLoad } from "./ipc/LanternLoad";
 import { GetVersionManifest } from "./ipc/GetVersionManifest";
 import { GetConfiguredProfile } from "./ipc/GetConfiguredProfile";
+import { GetCurrentProfile } from "./ipc/GetCurrentProfile";
 
 const log = (message) => console.log("[IPC] " + message);
 
@@ -98,6 +99,7 @@ export function handleAllIPC(_window: BrowserWindow): void {
     new LanternLoad(),
     new GetVersionManifest(),
     new GetConfiguredProfile(),
+    new GetCurrentProfile(),
   ];
   /**
    * Load all listeners
