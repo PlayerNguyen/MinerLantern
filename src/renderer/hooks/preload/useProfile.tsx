@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Profile } from "../../electron/handler/file/profileFile";
+import { Profile } from "../../../electron/handler/file/profileFile";
 
 export function useProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);

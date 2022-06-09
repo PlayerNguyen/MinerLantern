@@ -1,3 +1,7 @@
+export interface LanternLauncherErrorInterface {
+  message: string;
+  code: string;
+}
 export const LanternLauncherError = {
   UNEXPECTED_ERROR: {
     code: "UNEXPECTED_ERROR",

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HiViewList } from "react-icons/hi";
 
-import { ProfileNode } from "../../../electron/handler/file/profileFile";
 import useClickOutside from "../../hooks/useClickOutside";
-import { useProfile } from "../../hooks/useProfile";
+import { useCurrentProfile } from "../../hooks/preload/useCurrentProfile";
+import { useProfile } from "../../hooks/preload/useProfile";
 
 interface SelectorProps {
   onSelect: (index: number) => void;
@@ -12,7 +12,10 @@ interface SelectorProps {
 function Selector({ onSelect }: SelectorProps) {
   const [expand, setExpand] = useState(false);
   const currentDropdown = useRef(null);
+
   const { profile, isLoading: isProfileLoading } = useProfile();
+  const { currentProfileIndex, isLoading: isCurrentProfileIndexLoading } =
+    useCurrentProfile();
 
   useClickOutside(currentDropdown, () => {
     setExpand(false);
@@ -28,7 +31,7 @@ function Selector({ onSelect }: SelectorProps) {
         }}
       >
         <div className="flex flex-row items-center px-2 py-1">
-          <div className=" font-bold flex-1">Latest</div>
+          <div className=" font-bold flex-1">Latest {currentProfileIndex}</div>
           <span className="p-2">
             <HiViewList />
           </span>

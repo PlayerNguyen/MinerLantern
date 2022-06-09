@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
+import { useLanternLauncherLoad } from "./hooks/preload/useLanternLauncherLoad";
 import { useNetworkChange } from "./hooks/useNetworkChange";
 
 import Home from "./routes/Home/Home";
@@ -18,31 +19,26 @@ function App() {
   const isLoading = useSelector((state: any) => state.App.isLoading);
   const dispatch = useDispatch();
 
-  useNetworkChange((error, isOnline) => {
-    if (error) {
-      console.error(error);
-    } else {
-      console.log(`Network status changed to ${isOnline}`);
-    }
+  useNetworkChange({
+    onChange: (isOnline: boolean) => {
+      dispatch(setLoading(isOnline));
+
+      if (!isOnline) {
+        console.error("📴 Network is offline");
+      }
+    },
   });
 
-  useEffect(() => {
-    console.log();
-    window.lanternAPI.loadLantern();
-    window.lanternAPI.listenLoadLanternReply((args) => {
-      const { success, error } = args;
-
-      // If success load the launcher
-      if (success) {
-        console.log("Load Lantern success");
-        dispatch(setLoading(false));
-        return;
-      }
-      // no
-      // Otherwise, throw error
+  useLanternLauncherLoad({
+    onError: (error) => {
       throw new Error(error.message);
-    });
-  }, []);
+    },
+    onLoad: () => {
+      console.log(`🇻🇳 Lantern Launcher loaded`);
+
+      dispatch(setLoading(false));
+    },
+  });
 
   return (
     <>
