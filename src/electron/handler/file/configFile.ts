@@ -111,6 +111,11 @@ export function getDefaultConfig(): LanternLauncherConfig {
  * and keep the old values if the key is existed.
  */
 export function createDefaultValues(): void {
+  // Create a new one if the config file is not exists
+  if (!hasConfigFile()) {
+    saveConfig(getDefaultConfig());
+  }
+
   const _config = loadConfig();
   const _default = getDefaultConfig();
 
