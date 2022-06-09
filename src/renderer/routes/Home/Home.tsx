@@ -71,9 +71,36 @@ function Selector() {
 }
 
 function Home() {
+  const [username, setUsername] = useState("");
+  const [isUsernameValid, setUsernameValid] = useState<boolean>(false);
+  const config = useSelector((state: LauncherReducer) => state.App.config);
+
+  const isMinecraftUsername = (text) => {
+    return (
+      text.length >= 3 && text.length <= 16 && new RegExp(/^\w+$/i).test(text)
+    );
+  };
+
   useEffect(() => {
     console.log(`[Home] Mounted`);
   }, []);
+
+  useEffect(() => {
+    // Set the username to last username that player used
+    if (config && config.offline.lastUsername) {
+      setUsername(config.offline.lastUsername);
+      setUsernameValid(isMinecraftUsername(config.offline.lastUsername));
+    }
+  }, [config]);
+
+  const handleChangeUsername = ({ target }) => {
+    setUsername(target.value);
+    console.log();
+    const _clone = { ...config, offline: { lastUsername: target.value } };
+    window.lanternAPI.send("update-setting", _clone);
+
+    setUsernameValid(isMinecraftUsername(target.value));
+  };
 
   return (
     <div className="home__wrapper text-primary-100">
@@ -93,6 +120,8 @@ function Home() {
                   className="bg-primary-100 border-2 border-primary-900 rounded-lg p-2 text-primary-800 w-full"
                   type="text"
                   placeholder="Name"
+                  value={username}
+                  onChange={handleChangeUsername}
                 />
                 {/* Old-fashion style (deprecated) */}
                 {/* <button className="bg-green-600 px-3 py-1 text-2xl rounded-lg">
@@ -101,8 +130,15 @@ function Home() {
               </div>
             </div>
             <div className="flex flex-col">
-              <button className="bg-green-600 px-4 py-2 text-md rounded-lg w-full">
-                Enter Minecraft universe
+              <button
+                className={`px-4 py-2 text-md rounded-lg w-full font-bold ${
+                  isUsernameValid
+                    ? "bg-green-600 "
+                    : "bg-primary-600 text-primary-900 "
+                }`}
+                disabled={!isUsernameValid}
+              >
+                Enter Minecraft universes
               </button>
             </div>
           </div>
