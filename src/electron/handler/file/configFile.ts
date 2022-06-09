@@ -4,12 +4,19 @@ import * as fs from "fs";
 import { getLauncherDirectoryPath } from "./launcherFile";
 import { getConfigFileName } from "../property/launcher";
 
+interface OfflineUserConfig {
+  lastUsername: string;
+}
 export interface LanternLauncherConfig {
   currentProfileIndex: number;
+  offline: OfflineUserConfig;
 }
 
 const LanternLauncherConfigDefault: LanternLauncherConfig = {
   currentProfileIndex: 0,
+  offline: {
+    lastUsername: "",
+  },
 };
 
 /**
