@@ -8,12 +8,6 @@ import installExtension, {
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer";
 
-import {
-  createDefaultValues,
-  loadConfigDirectoryPath,
-} from "./handler/file/configFile";
-import { loadLauncherDirectoryPath } from "./handler/file/launcherFile";
-
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -53,13 +47,6 @@ app.whenReady().then(async () => {
 
   // Handle all IPC
   handleAllIPC(window);
-
-  // Create launcher path
-  loadLauncherDirectoryPath();
-
-  // Load configuration
-  loadConfigDirectoryPath();
-  createDefaultValues();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

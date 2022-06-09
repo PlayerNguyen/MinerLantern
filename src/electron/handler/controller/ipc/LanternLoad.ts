@@ -1,4 +1,4 @@
-import { Profile, loadProfile } from "./../../file/profileFile";
+import { Profile, loadProfile, hasProfileFile, loadDefaultProfile } from "./../../file/profileFile";
 import { VersionManifest } from "./../../file/versionFile";
 import { LanternLauncherError } from "./../../../error/error";
 import { ListenerChannels } from "./../../../Preload";
@@ -9,12 +9,15 @@ import {
   hasVersionManifestFile,
 } from "../../file/versionFile";
 import {
+  createDefaultValues,
   getDefaultConfig,
   hasConfigFile,
   LanternLauncherConfig,
   loadConfig,
+  loadConfigDirectoryPath,
   saveConfig,
 } from "../../file/configFile";
+import { loadLauncherDirectoryPath } from "../../file/launcherFile";
 
 interface LanternLoadParameters {
   isOnline: boolean;
@@ -26,6 +29,14 @@ export class LanternLoad implements Listener<LanternLoadParameters> {
     args: LanternLoadParameters
   ) => Promise<void> = async (event, args) => {
     const { isOnline } = args;
+
+    // Load directory assets
+    // Create launcher path
+    loadLauncherDirectoryPath();
+
+    // Load configuration
+    loadConfigDirectoryPath();
+    createDefaultValues();
 
     // Load default settings if they don't exist
     if (!hasConfigFile()) {
@@ -58,8 +69,16 @@ export class LanternLoad implements Listener<LanternLoadParameters> {
     }
 
     const _version: VersionManifest = getVersionManifest();
+
+    // Version loaded, now try to load profile
+    if (!hasProfileFile()) {
+      console.log(`No profile file found, using default profile`);
+      loadDefaultProfile(_version.latest.release);
+    }
+
     const _profile: Profile = loadProfile();
     const _config: LanternLauncherConfig = loadConfig();
+
     event.reply(
       "load-lantern-reply",
       createListenerResponse({
