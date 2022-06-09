@@ -13,7 +13,7 @@ import HomeSlice from "./routes/Home/HomeSlice";
 const store = configureStore({
   reducer: {
     App: AppSlice,
-    Home: HomeSlice,
+    // Home: HomeSlice,
   },
 });
 

@@ -112,16 +112,6 @@ function Home() {
                   console.log(i);
                 }}
               />
-              {/* <div className="flex flex-row gap-2">
-                <input
-                  className="bg-primary-100 border-2 border-primary-900 rounded-lg p-2 text-primary-800"
-                  type="password"
-                  placeholder="Password"
-                />
-                <button className="bg-green-600 px-3 py-1 text-2xl rounded-lg">
-                  <HiPlay />
-                </button>
-              </div> */}
             </div>
           </div>
         </div>

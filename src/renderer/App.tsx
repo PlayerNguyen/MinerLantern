@@ -9,7 +9,7 @@ import { useNetworkChange } from "./hooks/useNetworkChange";
 
 import Home from "./routes/Home/Home";
 import { Profile } from "./routes/Profile/Profile";
-import { setLoading } from "./store/AppSlice";
+import { setLoading, setProfile, setVersionManifest } from "./store/AppSlice";
 
 /**
  *
@@ -19,8 +19,6 @@ function App() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const isLoading = useSelector((state: any) => state.App.isLoading);
   const dispatch = useDispatch();
-
-  useVersionManifest();
 
   useNetworkChange({
     onChange: (isOnline: boolean) => {
@@ -36,10 +34,13 @@ function App() {
     onError: (error) => {
       throw new Error(error.message);
     },
-    onLoad: () => {
-      console.log(`🇻🇳 Lantern Launcher loaded`);
+    onLoad: (version, profile) => {
+      dispatch(setVersionManifest(version));
+      dispatch(setProfile(profile));
 
-      dispatch(setLoading(false));
+      // dispatch(setLoading(false));
+
+      console.log(`🇻🇳 Lantern Launcher loaded`);
     },
   });
 
