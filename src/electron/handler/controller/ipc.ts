@@ -19,22 +19,12 @@ import {
 } from "../file/profileFile";
 import { getConfig } from "../file/configFile";
 import { LanternLoad } from "./ipc/LanternLoad";
+import { GetVersionManifest } from "./ipc/GetVersionManifest";
+import { GetConfiguredProfile } from "./ipc/GetConfiguredProfile";
 
 const log = (message) => console.log("[IPC] " + message);
 
 // export function handleAllIPC(_window: BrowserWindow): void {
-
-//   ipcMain.on("get-version-manifest", async (event, args) => {
-//     log("get-version-manifest with args: " + JSON.stringify(args));
-//     const { isOnline } = args;
-//     // Fetch the file as soon as possible to update the latest version file
-//     await fetchVersionManifestFromServer(isOnline);
-//     // Reply to the renderer
-//     event.reply("get-version-manifest-reply", {
-//       success: true,
-//       versionManifest: getVersionManifest(),
-//     });
-//   });
 
 //   ipcMain.on("get-profile", async (event, args) => {
 //     log(`get-profile with args: ${JSON.stringify(args)}`);
@@ -104,7 +94,11 @@ export function handleAllIPC(_window: BrowserWindow): void {
   /**
    * Register all listeners
    */
-  const listeners: Listener<object>[] = [new LanternLoad()];
+  const listeners: Listener<object>[] = [
+    new LanternLoad(),
+    new GetVersionManifest(),
+    new GetConfiguredProfile(),
+  ];
   /**
    * Load all listeners
    */

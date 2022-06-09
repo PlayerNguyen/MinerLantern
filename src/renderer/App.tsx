@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { useLanternLauncherLoad } from "./hooks/preload/useLanternLauncherLoad";
+import { useVersionManifest } from "./hooks/preload/useVersionManifest";
 import { useNetworkChange } from "./hooks/useNetworkChange";
 
 import Home from "./routes/Home/Home";
@@ -18,6 +19,8 @@ function App() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const isLoading = useSelector((state: any) => state.App.isLoading);
   const dispatch = useDispatch();
+
+  useVersionManifest();
 
   useNetworkChange({
     onChange: (isOnline: boolean) => {

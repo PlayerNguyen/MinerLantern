@@ -3,7 +3,7 @@ import { HiViewList } from "react-icons/hi";
 
 import useClickOutside from "../../hooks/useClickOutside";
 import { useCurrentProfile } from "../../hooks/preload/useCurrentProfile";
-import { useProfile } from "../../hooks/preload/useProfile";
+import { useConfiguredProfile } from "../../hooks/preload/useConfiguredProfile";
 
 interface SelectorProps {
   onSelect: (index: number) => void;
@@ -13,7 +13,7 @@ function Selector({ onSelect }: SelectorProps) {
   const [expand, setExpand] = useState(false);
   const currentDropdown = useRef(null);
 
-  const { profile, isLoading: isProfileLoading } = useProfile();
+  const { profile, isLoading: isProfileLoading } = useConfiguredProfile();
   const { currentProfileIndex, isLoading: isCurrentProfileIndexLoading } =
     useCurrentProfile();
 

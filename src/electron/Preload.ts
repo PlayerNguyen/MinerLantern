@@ -3,26 +3,26 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 export type ListenerChannels =
   | "load-lantern"
-  | "get-profile"
+  | "get-configured-profile"
   | "get-version-manifest"
   | "get-current-profile";
 
 export const ValidListenerChannels: string[] = [
   "load-lantern",
-  "get-profile",
+  "get-configured-profile",
   "get-version-manifest",
   "get-current-profile",
 ];
 
 export type ReplyChannels =
   | "load-lantern-reply"
-  | "get-profile-reply"
+  | "get-configured-profile-reply"
   | "get-version-manifest-reply"
   | "get-current-profile-reply";
 
 export const ValidReplyChannels: string[] = [
   "load-lantern-reply",
-  "get-profile-reply",
+  "get-configured-profile-reply",
   "get-version-manifest-reply",
   "get-current-profile-reply",
 ];
