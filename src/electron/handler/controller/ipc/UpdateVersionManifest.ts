@@ -1,4 +1,3 @@
-import { VersionManifest } from "./../../file/versionFile";
 import { ListenerChannels } from "../../../Preload";
 import {
   fetchVersionManifestFromServer,
@@ -15,10 +14,10 @@ export class UpdateVersionManifest implements Listener<any> {
 
     await fetchVersionManifestFromServer(true);
 
-    const _ = getVersionManifest();
+    const _manifest = getVersionManifest();
     event.reply(
       "update-version-manifest-reply",
-      createListenerResponse({ VersionManifest: _ })
+      createListenerResponse({ VersionManifest: _manifest })
     );
   };
 }

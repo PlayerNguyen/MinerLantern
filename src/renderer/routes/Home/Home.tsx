@@ -5,19 +5,22 @@ import useClickOutside from "../../hooks/useClickOutside";
 import { useCurrentProfile } from "../../hooks/preload/useCurrentProfile";
 import { useConfiguredProfile } from "../../hooks/preload/useConfiguredProfile";
 import { useSelector } from "react-redux";
+import { LauncherReducer } from "../../Index";
 
-interface SelectorProps {
-  onSelect: (index: number) => void;
-}
-
-function Selector({ onSelect }: SelectorProps) {
+function Selector() {
   const [expand, setExpand] = useState(false);
   const currentDropdown = useRef(null);
-
   const { profile } = useConfiguredProfile();
-
-  // const { profile, isLoading: isProfileLoading } = useConfiguredProfile();
   const { currentProfileIndex } = useCurrentProfile();
+  const config = useSelector((state: LauncherReducer) => state.App.config);
+
+  const onSelect = (index) => {
+    // console.log(index);
+    window.lanternAPI.send("update-setting", {
+      ...config,
+      currentProfileIndex: index,
+    });
+  };
 
   useClickOutside(currentDropdown, () => {
     setExpand(false);
@@ -43,16 +46,16 @@ function Selector({ onSelect }: SelectorProps) {
 
         <div
           className={`bg-primary-100 text-primary-800 rounded-lg w-[140px] 
-            m-h-[300px] overflow-y-scroll mt-1 ${
-              expand ? "absolute" : ` hidden`
-            }`}
+          max-h-[300px] overflow-y-scroll mt-1 ${
+            expand ? "absolute" : ` hidden`
+          }`}
           ref={currentDropdown}
         >
           {profile &&
             profile.profiles.map((_, i) => (
               <div
                 key={i}
-                className={`hover:bg-primary-300 px-2 py-2 rounded-lg flex flex-col  cursor-default`}
+                className={`hover:bg-primary-300 px-2 py-2 rounded-lg flex flex-col cursor-default`}
                 onClick={() => {
                   onSelect(i);
                 }}
@@ -106,11 +109,7 @@ function Home() {
           {/* Right group */}
           <div className="">
             <div className="flex flex-col">
-              <Selector
-                onSelect={(i: number) => {
-                  console.log(i);
-                }}
-              />
+              <Selector />
             </div>
           </div>
         </div>

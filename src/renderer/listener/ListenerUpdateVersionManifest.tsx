@@ -14,9 +14,6 @@ export class ListenerUpdateVersionManifest
     dispatch: Dispatch<AnyAction>,
     args: LanternReplyResponse<VersionManifest>
   ) => {
-    console.log("🛫  Received update-version-manifest-reply");
-    // console.log(`🛫  ${JSON.stringify(args)}`);
-
     dispatch(setVersionManifest(args.data));
   };
 }

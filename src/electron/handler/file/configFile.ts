@@ -5,14 +5,10 @@ import { getLauncherDirectoryPath } from "./launcherFile";
 import { getConfigFileName } from "../property/launcher";
 
 export interface LanternLauncherConfig {
-  config: string;
-  c: boolean;
   currentProfileIndex: number;
 }
 
 const LanternLauncherConfigDefault: LanternLauncherConfig = {
-  config: "",
-  c: true,
   currentProfileIndex: 0,
 };
 

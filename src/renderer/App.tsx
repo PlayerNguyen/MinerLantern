@@ -10,7 +10,12 @@ import { ListenerReceiver } from "./listener/ListenerReceiver";
 
 import Home from "./routes/Home/Home";
 import { Profile } from "./routes/Profile/Profile";
-import { setLoading, setProfile, setVersionManifest } from "./store/AppSlice";
+import {
+  setConfig,
+  setLoading,
+  setProfile,
+  setVersionManifest,
+} from "./store/AppSlice";
 
 /**
  *
@@ -38,9 +43,10 @@ function App() {
     onError: (error) => {
       throw new Error(error.message);
     },
-    onLoad: (version, profile) => {
+    onLoad: (version, profile, config) => {
       dispatch(setVersionManifest(version));
       dispatch(setProfile(profile));
+      dispatch(setConfig(config));
 
       // dispatch(setLoading(false));
 

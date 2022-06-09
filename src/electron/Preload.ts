@@ -6,7 +6,8 @@ export type ListenerChannels =
   | "get-configured-profile"
   | "get-version-manifest"
   | "get-current-profile"
-  | "update-version-manifest";
+  | "update-version-manifest"
+  | "update-setting";
 
 export const ValidListenerChannels: string[] = [
   "load-lantern",
@@ -14,6 +15,7 @@ export const ValidListenerChannels: string[] = [
   "get-version-manifest",
   "get-current-profile",
   "update-version-manifest",
+  "update-setting",
 ];
 
 export type ReplyChannels =
@@ -21,7 +23,8 @@ export type ReplyChannels =
   | "get-configured-profile-reply"
   | "get-version-manifest-reply"
   | "get-current-profile-reply"
-  | "update-version-manifest-reply";
+  | "update-version-manifest-reply"
+  | "update-setting-reply";
 
 export const ValidReplyChannels: string[] = [
   "load-lantern-reply",
@@ -29,6 +32,7 @@ export const ValidReplyChannels: string[] = [
   "get-version-manifest-reply",
   "get-current-profile-reply",
   "update-version-manifest-reply",
+  "update-setting-reply",
 ];
 
 contextBridge.exposeInMainWorld("lanternAPI", {

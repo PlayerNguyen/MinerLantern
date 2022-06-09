@@ -8,6 +8,7 @@ import { LanternLoad } from "./ipc/LanternLoad";
 import { GetVersionManifest } from "./ipc/GetVersionManifest";
 import { GetConfiguredProfile } from "./ipc/GetConfiguredProfile";
 import { GetCurrentProfile } from "./ipc/GetCurrentProfile";
+import { UpdateSetting } from "./ipc/UpdateSetting";
 
 // export function handleAllIPC(_window: BrowserWindow): void {
 
@@ -75,6 +76,7 @@ export function createListenerResponse<T>(data?: T): LanternReplyResponse<T> {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function handleAllIPC(_window: BrowserWindow): void {
   /**
    * Register all listeners
@@ -85,6 +87,7 @@ export function handleAllIPC(_window: BrowserWindow): void {
     new GetConfiguredProfile(),
     new GetCurrentProfile(),
     new UpdateVersionManifest(),
+    new UpdateSetting(),
   ];
   /**
    * Load all listeners
