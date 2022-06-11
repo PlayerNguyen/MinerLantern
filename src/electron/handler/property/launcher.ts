@@ -40,7 +40,41 @@ export function getVersionManifestUrl(): string {
 export function getVersionManifestFileName(): string {
   return "lantern_version_manifest.json";
 }
-
+/**
+ * Returns a profile file name, which stores profile data.
+ * @returns {string} a profile file name
+ */
 export function getProfileFileName(): string {
   return "profile.json";
+}
+
+/**
+ * Checks if the current platform is MacOS.
+ * @returns {boolean} true if the current platform is MacOS (OSX)
+ */
+export function isMac(): boolean {
+  return process.platform === "darwin";
+}
+/**
+ * Checks if the current platform is Windows.
+ * @returns {boolean} true if the current platform is Windows
+ */
+export function isWindows(): boolean {
+  return process.platform === "win32";
+}
+
+/**
+ * Checks if the current platform is Linux.
+ * @returns {boolean} true if the current platform is Linux
+ */
+export function isLinux(): boolean {
+  return process.platform === "linux";
+}
+/**
+ * Returns an Adoptium base url. Adoptium is a free Prebuilt OpenJDK Binaries
+ * to download JRE for this launcher.
+ * @returns {string} return an adoptium url
+ */
+export function getAdoptiumVersion3Url(): string {
+  return "https://api.adoptium.net/v3/";
 }

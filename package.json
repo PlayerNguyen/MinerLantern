@@ -18,6 +18,7 @@
   "devDependencies": {
     "@parcel/transformer-sass": "2.6.0",
     "@types/needle": "^2.5.3",
+    "@types/progress": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "autoprefixer": "^10.4.7",

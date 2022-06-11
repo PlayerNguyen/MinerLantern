@@ -1,4 +1,9 @@
-import { Profile, loadProfile, hasProfileFile, loadDefaultProfile } from "./../../file/profileFile";
+import {
+  Profile,
+  loadProfile,
+  hasProfileFile,
+  loadDefaultProfile,
+} from "./../../file/profileFile";
 import { VersionManifest } from "./../../file/versionFile";
 import { LanternLauncherError } from "./../../../error/error";
 import { ListenerChannels } from "./../../../Preload";
@@ -18,6 +23,7 @@ import {
   saveConfig,
 } from "../../file/configFile";
 import { loadLauncherDirectoryPath } from "../../file/launcherFile";
+import { download } from "../../downloader/downloadQueue";
 
 interface LanternLoadParameters {
   isOnline: boolean;

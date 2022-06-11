@@ -7,6 +7,7 @@ import {
   getVersionManifestUrl,
 } from "../property/launcher";
 import { getLauncherDirectoryPath } from "./launcherFile";
+import { MinecraftVersionResponse } from "../../interpreter/MinecraftVersionInterpreter";
 
 export interface VersionManifestLatestPatch {
   release: string;
@@ -125,4 +126,67 @@ export function getVersionManifest(): VersionManifest {
     fs.readFileSync(getVersionManifestFilePath(), "utf8")
   );
   return versionManifest;
+}
+
+/**
+ * Gets the version metadata file path.
+ * @param versionId a version id to solve file path
+ * @returns a joined file path of the version metadata
+ */
+export function getVersionMetadataFilePath(versionId: string): string {
+  return path.join(
+    getVersionsDirectoryPath(),
+    `${versionId}`,
+    `${versionId}.json`
+  );
+}
+
+/**
+ * Checks if the version metadata file is existed or not.
+ * @param versionId a version id to check
+ * @returns true if the version metadata file is existed
+ */
+export function hasVersionMetadata(versionId: string): boolean {
+  return fs.existsSync(getVersionMetadataFilePath(versionId));
+}
+
+/**
+ * Gets the version metadata from local file. If the version metadata file is not existed,
+ * throw an error.
+ *
+ * @param versionId a version id to load
+ * @returns a version metadata data from local file
+ */
+export function loadVersionMetadata(
+  versionId: string
+): MinecraftVersionResponse {
+  if (!hasVersionMetadata(versionId)) {
+    throw new Error(`Version metadata file is not found`);
+  }
+
+  const versionMetadata = JSON.parse(
+    fs.readFileSync(getVersionMetadataFilePath(versionId), "utf8")
+  );
+  return versionMetadata;
+}
+/**
+ * Saves the version metadata to local file.
+ * @param versionId a version id to save
+ * @param versionMetadata a version metadata to save
+ */
+export function saveVersionMetadata(
+  versionId: string,
+  versionMetadata: MinecraftVersionResponse
+): void {
+  // Make a directory first
+  fs.mkdirSync(path.join(getVersionsDirectoryPath(), versionId), {
+    recursive: true,
+  });
+
+  // Save the metadata
+  fs.writeFileSync(
+    getVersionMetadataFilePath(versionId),
+    JSON.stringify(versionMetadata),
+    "utf8"
+  );
 }

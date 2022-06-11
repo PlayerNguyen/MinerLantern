@@ -8,7 +8,10 @@ import { LanternLoad } from "./ipc/LanternLoad";
 import { GetVersionManifest } from "./ipc/GetVersionManifest";
 import { GetConfiguredProfile } from "./ipc/GetConfiguredProfile";
 import { GetCurrentProfile } from "./ipc/GetCurrentProfile";
+
+import { RequestDownload } from "./ipc/RequestDownload";
 import { UpdateSetting } from "./ipc/UpdateSetting";
+import { RunMinecraft } from "./ipc/RunMinecraft";
 
 // export function handleAllIPC(_window: BrowserWindow): void {
 
@@ -88,6 +91,8 @@ export function handleAllIPC(_window: BrowserWindow): void {
     new GetCurrentProfile(),
     new UpdateVersionManifest(),
     new UpdateSetting(),
+    new RequestDownload(),
+    new RunMinecraft(),
   ];
   /**
    * Load all listeners

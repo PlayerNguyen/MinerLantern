@@ -102,6 +102,23 @@ function Home() {
     setUsernameValid(isMinecraftUsername(target.value));
   };
 
+  const handleExecuteMinecraft = () => {
+    console.log(`[Home] Execute Minecraft`);
+    
+    window.lanternAPI.send("run-minecraft", [
+      {
+        url: "https://launchermeta.mojang.com/v1/packages/4d2c1138477c7aafe8fb370de11ea5b23a963edc/1.19.json",
+        to: "../1.19.json",
+        hash: "4d2c1138477c7aafe8fb370de11ea5b23a963edc",
+      },
+      {
+        url: "https://launcher.mojang.com/v1/objects/c0898ec7c6a5a2eaa317770203a1554260699994/client.jar",
+        to: "../client.jar",
+        hash: "c898ec7c6a5a2eaa317770203a1554260699994",
+      },
+    ]);
+  };
+
   return (
     <div className="home__wrapper text-primary-100">
       {/* Header */}
@@ -137,6 +154,9 @@ function Home() {
                     : "bg-primary-600 text-primary-900 "
                 }`}
                 disabled={!isUsernameValid}
+                onClick={() => {
+                  handleExecuteMinecraft();
+                }}
               >
                 Enter Minecraft universes
               </button>

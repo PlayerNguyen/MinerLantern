@@ -3,6 +3,7 @@ import { AnyAction } from "redux";
 
 import { ReplyChannels } from "../../electron/Preload";
 import { LanternReplyResponse } from "../preload";
+import { ListenerDownload } from "./ListenerDownload";
 import { ListenerUpdateSetting } from "./ListenerUpdateSetting";
 import { ListenerUpdateVersionManifest } from "./ListenerUpdateVersionManifest";
 
@@ -14,6 +15,7 @@ export interface Listener<T> {
 const Listeners = [
   new ListenerUpdateVersionManifest(),
   new ListenerUpdateSetting(),
+  new ListenerDownload(),
 ];
 
 export const ListenerReceiver = {
